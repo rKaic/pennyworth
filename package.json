@@ -1,0 +1,15 @@
+{
+  "name": "pennyworth",
+  "version": "1.0.0",
+  "description": "Discord Bot",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "https://github.com/rKaic",
+  "license": "MIT",
+  "dependencies": {
+    "discord.io": "github:woor/discord.io#gateway_v6",
+    "winston": "^2.4.1"
+  }
+}

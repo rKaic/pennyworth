@@ -23,7 +23,7 @@ function buildQuery(entryType, userID, entryId) {
 module.exports = (logger, repo, botManager) => {
   let module = {};
 
-  module.requests = (params, bot, userID, channelID, callback) => {
+  module.requests = (params, bot, userID, channelID, serverID, callback) => {
     repo.find(buildQuery(requestEntryType, userID), (err, docs) => {
       if(err || docs.length === 0) {
         err && this.logger.error(err);
@@ -42,7 +42,7 @@ module.exports = (logger, repo, botManager) => {
     });
   };
 
-  module.defects = (params, bot, userID, channelID, callback) => {
+  module.defects = (params, bot, userID, channelID, serverID, callback) => {
     repo.find(buildQuery(defectEntryType, userID), (err, docs) => {
       if(err || docs.length === 0) {
         err && this.logger.error(err);
@@ -61,7 +61,7 @@ module.exports = (logger, repo, botManager) => {
     });
   };
     
-  module.request = (params, bot, userID, channelID, callback) => {
+  module.request = (params, bot, userID, channelID, serverID, callback) => {
     if(params.length < 2 || !_.includes(validVerbs, params[0])) {
       callback(`Usage: \`\`\`!request <${validVerbs.join("|")}> <feature idea> \`\`\``);
       return;
@@ -129,7 +129,7 @@ module.exports = (logger, repo, botManager) => {
     }
   };
   
-  module.defect = (params, bot, userID, channelID, callback) => {
+  module.defect = (params, bot, userID, channelID, serverID, callback) => {
     if(params.length < 2 || !_.includes(validVerbs, params[0])) {
       callback(`Usage: \`\`\`!defect <${validVerbs.join("|")}> <description> \`\`\``);
       return;

@@ -6,7 +6,7 @@ const core = require("../core.js");
 module.exports = (logger, repo, botManager) => {
   let module = {};
 
-  module.image = (params, bot, userID, channelID, callback) => {
+  module.image = (params, bot, userID, channelID, serverID, callback) => {
     if(params.length === 0) {
       callback(`Usage: \`\`\`!image <search term>\`\`\``);
       return;
@@ -22,7 +22,7 @@ module.exports = (logger, repo, botManager) => {
     });
   };
 
-  module.riskyimage = (params, bot, userID, channelID, callback) => {
+  module.riskyimage = (params, bot, userID, channelID, serverID, callback) => {
     if(params.length === 0) {
       callback(`Usage: \`\`\`!riskyimage <search term>\`\`\``);
       return;

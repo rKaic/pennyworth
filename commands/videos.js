@@ -13,7 +13,7 @@ const archivesIncomplete = "https://i.imgur.com/cpjE4PL.jpg";
 module.exports = (logger, repo, botManager) => {
   let module = {};
 
-  module.video = (params, bot, userID, channelID, callback) => {
+  module.video = (params, bot, userID, channelID, serverID, callback) => {
     if(params.length > 0) {
       if(videos.hasOwnProperty(params[0])) {
         var video = videos[params[0]];
@@ -30,7 +30,7 @@ module.exports = (logger, repo, botManager) => {
     }
   }
 
-  module.videos = (params, bot, userID, channelID, callback) => {
+  module.videos = (params, bot, userID, channelID, serverID, callback) => {
     callback(Object.keys(videos).join("\n"));
   }
 

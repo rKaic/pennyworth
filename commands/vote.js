@@ -5,7 +5,7 @@ const emojis = [":thumbsup:", ":star:", ":fire:"];
 // TODO - Figure out how to finish this
 module.exports = (logger, repo, botManager) => {
   let module = {
-    vote: (params, bot, userID, channelID, callback) => {
+    vote: (params, bot, userID, channelID, serverID, callback) => {
       let options = params.join(" ").split(",");
       if(options.length < 2) {
         callback("Usage: \`\`\`!vote <option>, <option>[, <option>]\`\`\`");

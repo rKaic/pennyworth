@@ -10,7 +10,7 @@ module.exports = (logger, repo, botManager) => {
     callback(`Usage: \`\`\`!stats <users|commands|mine> [today]\`\`\``);
   };
 
-  module.stats = (params, bot, userID, channelID, callback) => {
+  module.stats = (params, bot, userID, channelID, serverID, callback) => {
     if(params.length == 0) {
       usageError(callback);
       return;

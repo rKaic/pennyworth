@@ -98,7 +98,7 @@ module.exports = (logger, repo, botManager) => {
   };
 
   let module = {
-    bartender: (params, bot, userID, channelID, callback) => {
+    bartender: (params, bot, userID, channelID, serverID, callback) => {
       if(params.length === 0) {
         callback("Usage: \`\`\`!bartender name <search term>\`\`\` \`\`\`!bartender ingredients <ingredient>[, ingredient, ingredient]\`\`\`");
         return;
@@ -118,7 +118,6 @@ module.exports = (logger, repo, botManager) => {
           break;
         case "ingredients":
           let ingredients = params.slice(1).join(" ").split(",");
-          console.log(ingredients);
           getDrinksByIngredients(ingredients, (err, drinks) => {
             if(err) {
               callback(err);

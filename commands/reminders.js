@@ -148,7 +148,7 @@ module.exports = (logger, repo, botManager) => {
   }
 
   let module = {
-    remindme: (params, bot, userID, channelID, callback) => {
+    remindme: (params, bot, userID, channelID, serverID, callback) => {
       if(params.length < 1) {
         callback("Usage: \`\`\`!remindme <time> <message>\`\`\`");
         return;
@@ -170,7 +170,7 @@ module.exports = (logger, repo, botManager) => {
         }
       });
     },
-    remembered: (params, bot, userID, channelID, callback) => {
+    remembered: (params, bot, userID, channelID, serverID, callback) => {
       if(params.length === 0) {
         callback("Usage: \`\`\`!remembered <id>\`\`\`");
         return;
@@ -186,7 +186,7 @@ module.exports = (logger, repo, botManager) => {
         callback(`Cleared reminder \`${reminderId}\``);
       });
     },
-    clearreminders: (params, bot, userID, channelID, callback) => {
+    clearreminders: (params, bot, userID, channelID, serverID, callback) => {
       repo.removeByUserID(userID, (err, numRemoved) => {
         if(err) {
           callback("I'm sorry, but there was an error when removing your reminders. Please check my error logs.");
@@ -196,7 +196,7 @@ module.exports = (logger, repo, botManager) => {
         bot.sendMessageToUser(userID, `I've cleared your ${numRemoved} reminders`);
       });
     },
-    reminders: (params, bot, userID, channelID, callback) => {
+    reminders: (params, bot, userID, channelID, serverID, callback) => {
       repo.find({ type: reminderType, userID: userID }, (err, docs) => {
         if(err) {
           callback("I'm sorry, but there was an error when retrieving your reminders. Please check my error logs.");

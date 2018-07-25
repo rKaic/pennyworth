@@ -16,7 +16,7 @@ Example command module:
 ```
 module.exports = (logger, repo, botManager) => {
   let module = {
-    helloworld: (params, bot, userID, channelID, callback) => {
+    helloworld: (params, bot, userID, channelID, serverID, callback) => {
       callback("Hello, World");
     }
   };

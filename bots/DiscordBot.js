@@ -29,7 +29,7 @@ module.exports = class DiscordBot extends Bot {
         // It will listen for messages that will start with `!`
         if (this.isCommand(message)) {
           this.logger.info(`From Discord: ${message}`);
-          super.receivedMessage(userID, channelID, message);
+          super.receivedMessage(userID, channelID, evt.d.guild_id, message);
          }
     });
 
@@ -46,21 +46,19 @@ module.exports = class DiscordBot extends Bot {
     return this.bot.id;
   }
 
-  getChannels() {
-    return _.map(this.bot.channels, (c) => { return { id: c.id, name: c.name }; });
+  getChannels(serverID) {
+    let serverChannels = _.filter(this.bot.channels, (c) => { return c.guild_id === serverID && c.type === 0; });
+    return _.map(serverChannels, (c) => { return { id: c.id, name: c.name }; });
   }
 
   getUsernameById(userID) {
     return _.find(this.bot.users, (u) => { return u.id === userID; }).username;
   }
 
-  getUsers() {
-    return _.map(this.bot.users, (u) => { return u.username; });
-  }
-
-  getGeneralChannelId() {
-    let channel = _.first(_.filter(this.bot.channels, (c) => { return c.name === settings.channels.general; }));
-    return channel ? channel.id : null;
+  getUserIds(serverID) {
+    let currentServer = this.bot.servers[serverID];
+    let serverMemberIds = _.filter(Object.keys(currentServer.members), (id) => { return id !== settings.botId; });
+    return serverMemberIds;
   }
 
   sendMessage(channelID, message) {

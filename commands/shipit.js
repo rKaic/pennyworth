@@ -13,7 +13,7 @@ const squirrels = [
 
 module.exports = (logger, repo, botManager) => {
   let module = {
-    shipit: (params, bot, userID, channelID, callback) => {
+    shipit: (params, bot, userID, channelID, serverID, callback) => {
       let randomImage = core.random(squirrels);
       callback(randomImage);
     }

@@ -30,7 +30,7 @@ module.exports = class SlackBot extends Bot {
     this.bot.on("message", (message) => {
       if(message.type === "message" && message.text && this.isCommand(message.text)) {
         this.logger.info(`From Slack: ${message.text}`);
-        super.receivedMessage(message.user, message.channel, message.text);
+        super.receivedMessage(message.user, message.channel, message.team, message.text);
       }
     });
 
@@ -47,7 +47,7 @@ module.exports = class SlackBot extends Bot {
     return this.bot.self.id;
   }
 
-  getChannels() {
+  getChannels(serverID) {
     return _.map(this.bot.channels, (c) => { return { id: c.id, name: c.name }; });
   }
 
@@ -55,13 +55,8 @@ module.exports = class SlackBot extends Bot {
     return _.find(this.bot.users, (u) => { return u.id === userID; }).real_name;
   }
 
-  getUsers() {
-    return _.map(this.bot.users, (u) => { return u.real_name; });
-  }
-
-  getGeneralChannelId() {
-    let channel = _.first(_.filter(this.bot.channels, (c) => { return c.name === settings.channels.general; }));
-    return channel ? channel.id : null;
+  getUserIds(serverID) {
+    return _.map(this.bot.users, (u) => { return u.id; });
   }
 
   sendMessage(channelID, message) {

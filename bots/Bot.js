@@ -33,7 +33,7 @@ class Bot {
     return null;
   }
 
-  getChannels() {
+  getChannels(serverID) {
     return [];
   }
 
@@ -41,12 +41,8 @@ class Bot {
     return null;
   }
 
-  getUsers() {
+  getUserIds(serverID) {
     return [];
-  }
-
-  getGeneralChannelId() {
-    return null;
   }
 
   sendMessage(channelId, message) {
@@ -57,11 +53,11 @@ class Bot {
     logger.info(JSON.stringify({userId, message}));
   }
 
-  receivedMessage(userID, channelID, message) {
+  receivedMessage(userID, channelID, serverID, message) {
     let args = message.replace(this.commandParam, "").split(' ');
     let command = args[0];
     let params = args.slice(1);
-    this.emit('message', userID, channelID, command, params, this);
+    this.emit('message', userID, channelID, serverID, command, params, this);
   }
 };
 

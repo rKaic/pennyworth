@@ -10,10 +10,10 @@ const friars = [
 ];
 
 module.exports = (logger, repo, botManager) => {
-  function getFriarTuck(params, bot, userID, channelID, callback) {
-    let randomImage = core.random(friars);
-    callback(randomImage);
-  }
+    function getFriarTuck(params, bot, userID, channelID, serverID, callback) {
+      let randomImage = core.random(friars);
+      callback(randomImage);
+    }
 
   let module = {
     friartuck: getFriarTuck,

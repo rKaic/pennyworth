@@ -21,7 +21,7 @@ botManager.addBot(new SlackBot(logger, repo));
 const bots = botManager.getAllBots();
 
 const commands = {
-  help: function(params, bot, userID, channelID, callback) {
+  help: function(params, bot, userID, channelID, serverID, callback) {
     try {
       let allCommands = _.sortBy(_.filter(Object.keys(commands), (c) => { return !c.match(/^risky.*/) && (params.length === 0 || RegExp(`.*${params[0]}.*`).test(c)); }), (c) => { return c; });
       callback(`Available commands:\n${allCommands.join("    \n")}`);
@@ -68,8 +68,8 @@ function botInitialized() {
 for(let bot of bots) {
   bot.on("initialized", botInitialized);
   bot.initialize();
-  bot.on("message", (userID, channelID, command, params, bot) => {
-    logger.info(JSON.stringify({userID, channelID, command, params}));
+  bot.on("message", (userID, channelID, serverID, command, params, bot) => {
+    logger.info(JSON.stringify({userID, channelID, serverID, command, params}));
     if(commands.hasOwnProperty(command.toLowerCase())) {
       // Record the command for stat tracking
       var commandEntry = {
@@ -77,7 +77,9 @@ for(let bot of bots) {
         params: params,
         userID: userID,
         type: "command",
-        botType: bot.getBotType()
+        botType: bot.getBotType(),
+        channelID: channelID,
+        serverID: serverID
       };
       repo.add(commandEntry, (err, c) => {
         if(err) {
@@ -87,7 +89,7 @@ for(let bot of bots) {
       });
 
       // Then run the command
-      commands[command](params, bot, userID, channelID, (message) => {
+      commands[command](params, bot, userID, channelID, serverID, (message) => {
         bot.sendMessage(channelID, message);
       });
     }

@@ -112,7 +112,7 @@ const memes = [{
 
 module.exports = (logger, repo, botManager) => {
   let module = {
-    meme: (params, bot, userID, channelID, callback) => {
+    meme: (params, bot, userID, channelID, serverID, callback) => {
       let memeText = params.join(" ");
       let validMeme = _.first(_.filter(memes, (m) => {return memeText.match(m.regex)}));
       if(typeof validMeme === "undefined") {

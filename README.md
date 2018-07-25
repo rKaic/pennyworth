@@ -91,6 +91,29 @@ Example usage of the above module:
 !helloworld
 ```
 
+### Module Parameters
+
+The `logger` parameter is a reference to the object responsible for logging debug and error information (this has been initialized in `app.js`)
+
+The `repo` parameter is a reference to the object managing the persistent datastore implemented in `Repository.js`.
+
+The `botManager` parameter is a reference to the object that provides access to the different `Bot`s that are currently running within Pennyworth.
+
+### Command Parameters
+
+The `params` parameter is an array of the text that was input after the command.
+Ex: the user types `!helpme Obi-Wan Kenobi! You're my only hope!` which triggers the `!helpme` command, the `params` would be ```["Obi-Wan", "Kenobi!", "You're", "my", "only", "hope!"]```.
+
+The `bot` parameter is a reference to the `Bot` that received the command.
+
+The `userID` parameter is the service-specific ID of the user who invoked the command.
+
+The `channelID` parameter is the service-specific ID of the channel in which the command was received.
+
+The `serverID` parameter is the service-specific ID of the server/organization in which the command was received.
+
+The `callback` parameter is a function that writes its argument to the channel in which the command was received.
+
 ## Adding Polls
 
 Add a new .js file under the `/polls` directory. It will automatically be picked up when Pennyworth is run.
@@ -113,4 +136,14 @@ module.exports = (bots, logger, repo, botManager) => {
 }
 ```
 
-Polling will automatically be started via the initialize method once Pennyworth has successfully connected to Discord.
+Polling will automatically be started via the initialize method once Pennyworth has successfully connected to all of its `Bot`s.
+
+### Module Parameters
+
+The `bots` parameter is an array of all active `Bot`s.
+
+The `logger` parameter is a reference to the object responsible for logging debug and error information (this has been initialized in `app.js`)
+
+The `repo` parameter is a reference to the object managing the persistent datastore implemented in `Repository.js`.
+
+The `botManager` parameter is a reference to the object that provides access to the different `Bot`s that are currently running within Pennyworth.

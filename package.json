@@ -1,15 +1,25 @@
 {
   "name": "pennyworth",
   "version": "1.0.0",
-  "description": "Discord Bot",
-  "main": "bot.js",
+  "description": "Modular Discord and Slack Bot",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "https://github.com/rKaic",
   "license": "MIT",
   "dependencies": {
+    "crypto": "^1.0.1",
     "discord.io": "github:woor/discord.io#gateway_v6",
+    "events": "^2.0.0",
+    "glob": "^7.1.2",
+    "google-images": "^2.1.0",
+    "lodash": "^4.17.5",
+    "moment": "^2.22.1",
+    "nedb": "^1.8.0",
+    "request": "^2.85.0",
+    "request-promise-native": "^1.0.5",
+    "slackbots": "^1.1.0",
     "winston": "^2.4.1"
   }
 }

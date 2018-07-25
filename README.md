@@ -68,6 +68,14 @@ for(let exampleToken of auth.example.tokens) {
 }
 ```
 
+### Module Parameters
+
+The `logger` parameter is a reference to the object responsible for logging debug and error information (this has been initialized in `app.js`)
+
+The `repo` parameter is a reference to the object managing the persistent datastore implemented in `Repository.js`.
+
+The `token` parameter is the service-and-user-specific application token that grants access to a defined Bot and Servers within Discord/Slack/etc.
+
 ## Adding Commands
 
 Add a new .js file under the `/commands` directory. It will automatically be picked up when Pennyworth is run.

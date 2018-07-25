@@ -47,17 +47,18 @@ class Repository {
 
   add(obj, callback) {
     let error = null;
-    if(!this.isValid(obj)) {
-      this.logger.error(`Invalid object attempted to be added to repo: ${JSON.stringify(obj)}`);
-      return;
-    }
 
     if(!obj.hasOwnProperty("timestamp")) {
       obj.timestamp = moment.utc().format();
     }
     
     if(!obj.hasOwnProperty("_id")) {
-      obj[_id] = core.uuid();
+      obj._id = core.uuid();
+    }
+
+    if(!this.isValid(obj)) {
+      this.logger.error(`Invalid object attempted to be added to repo: ${JSON.stringify(obj)}`);
+      return;
     }
 
 

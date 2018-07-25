@@ -2,6 +2,7 @@ const logger = require('winston');
 const _ = require('lodash');
 const glob = require( 'glob' );
 const path = require( 'path' );
+const auth = require('./auth.json');
 const DiscordBot = require('./bots/DiscordBot.js');
 const SlackBot = require('./bots/SlackBot.js');
 const BotManager = require('./bots/BotManager.js');
@@ -16,8 +17,12 @@ logger.level = 'debug';
 
 const repo = new Repository(logger);
 const botManager = new BotManager(logger);
-botManager.addBot(new DiscordBot(logger, repo));
-botManager.addBot(new SlackBot(logger, repo));
+for(let discordToken of auth.discord.tokens) {
+  botManager.addBot(new DiscordBot(logger, repo, discordToken));
+}
+for(let slackToken of auth.slack.tokens) {
+  botManager.addBot(new SlackBot(logger, repo, slackToken));
+}
 const bots = botManager.getAllBots();
 
 const commands = {

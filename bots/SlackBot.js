@@ -9,9 +9,9 @@ const iconUrl = "https://i.imgur.com/xsnGmvC.jpg";
 const username = "Pennyworth";
 
 module.exports = class SlackBot extends Bot {
-  constructor(logger, repo) {
+  constructor(logger, repo, token) {
     let bot = new Slack({
-      token: auth.slack.token,
+      token: token,
       name: username
     });
     super(bot, botTypes.slack, logger, repo);

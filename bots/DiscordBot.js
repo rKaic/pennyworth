@@ -1,4 +1,3 @@
-const auth = require('../auth.json');
 const botTypes = require('./botTypes.json');
 const Bot = require('./Bot.js');
 const Discord = require('discord.io');
@@ -6,9 +5,9 @@ const _ = require('lodash');
 const settings = require('../settings.json');
 
 module.exports = class DiscordBot extends Bot {
-  constructor(logger, repo) {
+  constructor(logger, repo, token) {
     let bot = new Discord.Client({
-      token: auth.discord.token,
+      token: token,
       autorun: true
     });
     super(bot, botTypes.discord, logger, repo);

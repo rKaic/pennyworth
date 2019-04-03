@@ -14,12 +14,12 @@
     "events": "^2.0.0",
     "glob": "^7.1.2",
     "google-images": "^2.1.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.11",
     "moment": "^2.22.1",
     "nedb": "^1.8.0",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
-    "slackbots": "^1.1.0",
+    "slackbots": "^1.2.0",
     "winston": "^2.4.1"
   }
 }

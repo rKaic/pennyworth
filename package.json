@@ -15,7 +15,7 @@
     "glob": "^7.1.2",
     "google-images": "^2.1.0",
     "lodash": "^4.17.11",
-    "moment": "^2.22.1",
+    "moment": "^2.29.2",
     "nedb": "^1.8.0",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",

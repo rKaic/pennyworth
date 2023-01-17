@@ -60,8 +60,8 @@ module.exports = class DiscordBot extends Bot {
     return serverMemberIds;
   }
 
-  sendMessage(channelID, message) {
-    this.bot.sendMessage({
+  async sendMessage(channelID, message) {
+    await this.bot.sendMessage({
       to: channelID,
       message: message
     }, (error, response) => {
@@ -71,8 +71,8 @@ module.exports = class DiscordBot extends Bot {
     });
   }
 
-  sendMessageToUser(userId, message) {
-    this.bot.sendMessage({
+  async sendMessageToUser(userId, message) {
+    await this.bot.sendMessage({
       to: userId,
       message: message
     }, (error, response) => {

@@ -1,8 +1,8 @@
-const auth = require('../auth.json');
+const auth = require('../auth.js');
 const _ = require('lodash');
 const request = require('request');
 
-const memeGenApiKey = auth.memeGen.apiKey;
+const memeGenApiKey = auth.memeGen.getApiKey();
 const memes = [{
 		regex: /(Y U NO) (.+)/i,
 		generatorID: 2,

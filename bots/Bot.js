@@ -45,12 +45,19 @@ class Bot {
     return [];
   }
 
-  sendMessage(channelId, message) {
+  async sendMessage(channelId, message) {
     logger.info(JSON.stringify({channelId, message}));
   }
 
-  sendMessageToUser(userId, message) {
+  async sendMessageToUser(userId, message) {
     logger.info(JSON.stringify({userId, message}));
+  }
+
+  receivedMessage(userID, channelID, serverID, message) {
+    let args = message.replace(this.commandParam, "").split(' ');
+    let command = args[0];
+    let params = args.slice(1);
+    this.emit('message', userID, channelID, serverID, command, params, this);
   }
 
   receivedMessage(userID, channelID, serverID, message) {

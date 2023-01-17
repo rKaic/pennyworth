@@ -125,11 +125,11 @@ module.exports = (logger, repo, botManager) => {
   function pollReminders() {
     let now = moment.utc();
     let remindersToRemove = [];
-    repo.findAllByType(reminderType, (error, reminders) => {
+    repo.findAllByType(reminderType, async (error, reminders) => {
       for(let reminder of reminders) {
         if(now.isSameOrAfter(moment.utc(reminder.time), "minute")) {
           let bot = botManager.getBot(reminder.botType);
-          bot.sendMessageToUser(reminder.userID, `Reminder: ${reminder.text}`);
+          await bot.sendMessageToUser(reminder.userID, `Reminder: ${reminder.text}`);
           remindersToRemove.push(reminder._id);
         }
       }
@@ -187,17 +187,17 @@ module.exports = (logger, repo, botManager) => {
       });
     },
     clearreminders: (params, bot, userID, channelID, serverID, callback) => {
-      repo.removeByUserID(userID, (err, numRemoved) => {
+      repo.removeByUserID(userID, async (err, numRemoved) => {
         if(err) {
           callback("I'm sorry, but there was an error when removing your reminders. Please check my error logs.");
           return;
         }
 
-        bot.sendMessageToUser(userID, `I've cleared your ${numRemoved} reminders`);
+        await bot.sendMessageToUser(userID, `I've cleared your ${numRemoved} reminders`);
       });
     },
     reminders: (params, bot, userID, channelID, serverID, callback) => {
-      repo.find({ type: reminderType, userID: userID }, (err, docs) => {
+      repo.find({ type: reminderType, userID: userID }, async (err, docs) => {
         if(err) {
           callback("I'm sorry, but there was an error when retrieving your reminders. Please check my error logs.");
           return;
@@ -211,7 +211,7 @@ module.exports = (logger, repo, botManager) => {
           }; 
         });
         let remindersMessage = usersReminders.length > 0 ? `\`\`\`${JSON.stringify(usersReminders, null, 2)}\`\`\`` : "You have no reminders at this time.";
-        bot.sendMessageToUser(userID, remindersMessage);
+        await bot.sendMessageToUser(userID, remindersMessage);
         callback(`I've messaged you with your current reminders.`);
       });
     }

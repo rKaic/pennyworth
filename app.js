@@ -2,7 +2,7 @@ const logger = require('winston');
 const _ = require('lodash');
 const glob = require( 'glob' );
 const path = require( 'path' );
-const auth = require('./auth.json');
+const auth = require('./auth.js');
 const DiscordBot = require('./bots/DiscordBot.js');
 const SlackBot = require('./bots/SlackBot.js');
 const BotManager = require('./bots/BotManager.js');
@@ -17,11 +17,13 @@ logger.level = 'debug';
 
 const repo = new Repository(logger);
 const botManager = new BotManager(logger);
-for(let discordToken of auth.discord.tokens) {
+for(let discordToken of auth.discord.getTokens()) {
+  logger.info("Initializing Discord Bot");
   botManager.addBot(new DiscordBot(logger, repo, discordToken));
 }
-for(let slackToken of auth.slack.tokens) {
-  botManager.addBot(new SlackBot(logger, repo, slackToken));
+for(let slackConfig of auth.slack.getConfigs()) {
+  logger.info("Initializing Slack Bot");
+  botManager.addBot(new SlackBot(logger, repo, slackConfig.botToken, slackConfig.appToken, slackConfig.signingSecret));
 }
 const bots = botManager.getAllBots();
 
@@ -94,8 +96,8 @@ for(let bot of bots) {
       });
 
       // Then run the command
-      commands[command](params, bot, userID, channelID, serverID, (message) => {
-        bot.sendMessage(channelID, message);
+      commands[command](params, bot, userID, channelID, serverID, async (message) => {
+        await bot.sendMessage(channelID, message);
       });
     }
   })

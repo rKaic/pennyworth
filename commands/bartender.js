@@ -1,9 +1,9 @@
 const request = require('request-promise-native');
 const _ = require('lodash');
-const auth = require('../auth.json');
+const auth = require('../auth.js');
 const core = require("../core.js");
 
-const baseUrl = `https://www.thecocktaildb.com/api/json/v1/${auth.cocktailDb.apiKey}`;
+const baseUrl = `https://www.thecocktaildb.com/api/json/v1/${auth.cocktailDb.getApiKey()}`;
 
 module.exports = (logger, repo, botManager) => {
   const isNullOrEmpty = (value) => {

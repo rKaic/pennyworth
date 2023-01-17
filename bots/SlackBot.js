@@ -1,18 +1,19 @@
-const auth = require('../auth.json');
 const botTypes = require('./botTypes.json');
 const Bot = require('./Bot.js');
-const Slack = require('slackbots');
+const { App } = require('@slack/bolt');
 const _ = require('lodash');
-const settings = require('../settings.json');
 
 const iconUrl = "https://i.imgur.com/xsnGmvC.jpg";
 const username = "Pennyworth";
 
 module.exports = class SlackBot extends Bot {
-  constructor(logger, repo, token) {
-    let bot = new Slack({
-      token: token,
-      name: username
+  constructor(logger, repo, botToken, appToken, signingSecret) {
+    let bot = new App({
+      appToken: appToken,
+      token: botToken,
+      signingSecret: signingSecret,
+      name: username,
+      socketMode: true
     });
     super(bot, botTypes.slack, logger, repo);
   }
@@ -20,23 +21,47 @@ module.exports = class SlackBot extends Bot {
   initialize() {
     super.initialize();
 
-    this.bot.on("start", () => {
-      this.logger.info('Connected to Slack');
-      this.logger.info('Logged in as: ');
-      this.logger.info(`${this.bot.self.name} - (${this.bot.self.id})`);
-      super.initialized();
-    });
-    
-    this.bot.on("message", (message) => {
+    (async () => {
+      const port = 3000
+      // Start your app
+      await this.bot.start(process.env.PORT || port);
+      console.log(`⚡️ Slack Bolt app is running on port ${port}!`);
+    })();
+
+    this.bot.message(/!.*/, async ({message, say}) => {
       if(message.type === "message" && message.text && this.isCommand(message.text)) {
         this.logger.info(`From Slack: ${message.text}`);
         super.receivedMessage(message.user, message.channel, message.team, message.text);
       }
     });
 
-    this.bot.on("error", () => {
-      this.logger.error("Error connecting to Slack!");
+    this.bot.command(/\/.*/, async ({ command, ack, say }) => {
+      await ack();
+      const rawCommand = command.command.replace('/', '');
+      if(rawCommand) {
+        this.logger.info(`From Slack: ${command.command}`);
+        super.receivedMessage(command.user_id, command.channel_id, command.team_id, `${rawCommand} ${command.text}`);
+      }
     });
+
+    // this.bot.on("start", () => {
+    //   this.logger.info('Connected to Slack');
+    //   this.logger.info('Logged in as: ');
+    //   this.logger.info(`${this.bot.self.name} - (${this.bot.self.id})`);
+    //   super.initialized();
+    // });
+    
+    // this.bot.on("message", (message) => {
+    //   if(message.type === "message" && message.text && this.isCommand(message.text)) {
+    //     this.logger.info(`From Slack: ${message.text}`);
+    //     super.receivedMessage(message.user, message.channel, message.team, message.text);
+    //   }
+    // });
+
+    // this.bot.on("error", (err) => {
+    //   this.logger.error("Error connecting to Slack!");
+    //   this.logger.error(err);
+    // });
   }
 
   getName() {
@@ -59,11 +84,33 @@ module.exports = class SlackBot extends Bot {
     return _.map(this.bot.users, (u) => { return u.id; });
   }
 
-  sendMessage(channelID, message) {
-    this.bot.postMessage(channelID, message, { as_user: false, username: username, icon_url: iconUrl });
+  async sendMessage(channelID, message) {
+    if(typeof message === 'string' || message instanceof String) {
+      await this.bot.client.chat.postMessage({
+        text: message,
+        channel: channelID
+      });
+    } else {
+      await this.bot.client.chat.postMessage({
+        blocks: message,
+        channel: channelID
+      });
+    }
+    // this.bot.postMessage(channelID, message, { as_user: false, username: username, icon_url: iconUrl });
   }
 
-  sendMessageToUser(userId, message) {
-    this.bot.postMessage(userId, message, { as_user: false, username: username, icon_url: iconUrl });
+  async sendMessageToUser(userId, message) {
+    if(typeof message === 'string' || message instanceof String) {
+      await this.bot.client.chat.postMessage({
+        text: message,
+        channel: channelID
+      });
+    } else {
+      await this.bot.client.chat.postMessage({
+        blocks: message,
+        channel: channelID
+      });
+    }
+    // this.bot.postMessage(userId, message, { as_user: false, username: username, icon_url: iconUrl });
   }
 };

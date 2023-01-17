@@ -22,7 +22,7 @@ const Bot = require('./Bot.js');
 const ExampleClient = require('FakeExampleBotPackage');
 
 module.exports = class ExampleBot extends Bot {
-  constructor(logger, repo, token) {
+  constructor(logger, repo, token, signingSecret?) {
     let bot = new ExampleClient.Client({
       token: token
     });
@@ -47,8 +47,8 @@ module.exports = class ExampleBot extends Bot {
     });
   }
 
-  sendMessage(channelID, message) {
-    this.bot.sendMessage({
+  async sendMessage(channelID, message) {
+    await this.bot.sendMessage({
       to: channelID,
       message: message
     }, (error, response) => {
@@ -59,8 +59,8 @@ module.exports = class ExampleBot extends Bot {
   }
 };
 ```
-* Add the appropriate section and token(s) to `auth.json`
-  * ```"example": { "tokens": ["YOUR_TOKEN_HERE"] }```
+* Add the appropriate token(s) as comma-delimited lists of environment variables, and add a method to `auth.js`
+  * `PENNYWORTH_NEXTBOTAPP_TOKENS`
 * In `app.js`, register your new bot in the botManager:
 ```
 for(let exampleToken of auth.example.tokens) {

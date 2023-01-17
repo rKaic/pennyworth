@@ -1,4 +1,4 @@
-const auth = require('../auth.json');
+const auth = require('../auth.js');
 const _ = require('lodash');
 
 const requestEntryType = "request";
@@ -13,7 +13,7 @@ function buildQuery(entryType, userID, entryId) {
   }
 
   // Administrators have full permissions for all requests and features
-  if(!_.includes(auth.administrators, userID)) {
+  if(!_.includes(auth.users.getAdministrators(), userID)) {
     query.userID = userID;
   }
 

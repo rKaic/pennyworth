@@ -22,6 +22,9 @@ module.exports = {
             return configs;
         }
     },
+    atlassian: {
+        getBasicToken: () => process.env.PENNYWORTH_ATLASSIAN_BASIC_TOKEN
+    },
     cocktailDb: {
         getApiKey: () => process.env.PENNYWORTH_COCKTAILDB_APIKEY
     },

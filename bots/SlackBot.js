@@ -30,7 +30,7 @@ module.exports = class SlackBot extends Bot {
 
     this.bot.message(/!.*/, async ({message, say}) => {
       if(message.type === "message" && message.text && this.isCommand(message.text)) {
-        this.logger.info(`From Slack: ${message.text}`);
+        this.logger.info(`Message from Slack: ${message.text}`);
         super.receivedMessage(message.user, message.channel, message.team, message.text);
       }
     });
@@ -39,8 +39,19 @@ module.exports = class SlackBot extends Bot {
       await ack();
       const rawCommand = command.command.replace('/', '');
       if(rawCommand) {
-        this.logger.info(`From Slack: ${command.command}`);
+        this.logger.info(`Command from Slack: ${command.command}`);
         super.receivedMessage(command.user_id, command.channel_id, command.team_id, `${rawCommand} ${command.text}`);
+      }
+    });
+
+    this.bot.action(/.*/, async ({ action, body, ack, say }) => {
+      await ack();
+
+      // TODO - This is fragile
+      const checkedValues = Object.values(body.state.values).flatMap(val => val.check.selected_options.map(opt => opt.value));
+      if(action.action_id) {
+        this.logger.info(`Action from Slack: ${action.action_id}`);
+        super.receivedMessage(body.user.id, body.channel.id, body.team.id, `${action.action_id} ${checkedValues.join(" ")}`);
       }
     });
 
@@ -88,11 +99,15 @@ module.exports = class SlackBot extends Bot {
     if(typeof message === 'string' || message instanceof String) {
       await this.bot.client.chat.postMessage({
         text: message,
+        "unfurl_links": true,
+        "unfurl_media": true,
         channel: channelID
       });
     } else {
       await this.bot.client.chat.postMessage({
         blocks: message,
+        "unfurl_links": true,
+        "unfurl_media": true,
         channel: channelID
       });
     }
@@ -103,11 +118,15 @@ module.exports = class SlackBot extends Bot {
     if(typeof message === 'string' || message instanceof String) {
       await this.bot.client.chat.postMessage({
         text: message,
+        "unfurl_links": true,
+        "unfurl_media": true,
         channel: channelID
       });
     } else {
       await this.bot.client.chat.postMessage({
         blocks: message,
+        "unfurl_links": true,
+        "unfurl_media": true,
         channel: channelID
       });
     }

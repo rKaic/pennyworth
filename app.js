@@ -77,6 +77,7 @@ for(let bot of bots) {
   bot.initialize();
   bot.on("message", (userID, channelID, serverID, command, params, bot) => {
     logger.info(JSON.stringify({userID, channelID, serverID, command, params}));
+    // This toLowerCase() can cause issues but makes commands more user-friendly.
     if(commands.hasOwnProperty(command.toLowerCase())) {
       // Record the command for stat tracking
       var commandEntry = {

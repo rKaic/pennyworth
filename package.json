@@ -19,7 +19,7 @@
     "google-images": "^2.1.0",
     "jsdom": "^21.0.0",
     "lodash": "^4.17.21",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "nedb": "^1.8.0",
     "node-fetch": "2.6.6",
     "request": "^2.85.0",

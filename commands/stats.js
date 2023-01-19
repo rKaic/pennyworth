@@ -6,13 +6,13 @@ const commandEntryType = "command";
 module.exports = (logger, repo, botManager) => {
   let module = {};
 
-  const usageError = (callback) => {
-    callback(`Usage: \`\`\`!stats <users|commands|mine> [today]\`\`\``);
+  const usageError = (respond) => {
+    respond(`Usage: \`\`\`!stats <users|commands|mine> [today]\`\`\``);
   };
 
-  module.stats = (params, bot, userID, channelID, serverID, callback) => {
+  module.stats = (params, bot, userID, channelID, serverID, respond) => {
     if(params.length == 0) {
-      usageError(callback);
+      usageError(respond);
       return;
     }
 
@@ -29,7 +29,7 @@ module.exports = (logger, repo, botManager) => {
         query.userID = userID;
         break;
       default:
-        usageError(callback);
+        usageError(respond);
         return;
     }
 
@@ -40,7 +40,7 @@ module.exports = (logger, repo, botManager) => {
     
     repo.find(query, (err, docs) => {
       if(err) {
-        callback("I'm sorry, but there was an error when retrieving stats. Please check my error logs.");
+        respond("I'm sorry, but there was an error when retrieving stats. Please check my error logs.");
         return;
       }
 
@@ -55,7 +55,7 @@ module.exports = (logger, repo, botManager) => {
         }; 
       }), countByField);
       let statsMessage = `\`\`\`${JSON.stringify(commands, _.orderBy(Object.keys(commands), (c) => {return commands[c]}, "desc"), 2)}\`\`\``;
-      callback(statsMessage);
+      respond(statsMessage);
     });
   };
 

@@ -2,14 +2,14 @@ const request = require('request');
 
 module.exports = (logger, repo, botManager) => {
   let module = {
-    inspire: (params, bot, userID, channelID, serverID, callback) => {
+    inspire: (params, bot, userID, channelID, serverID, respond) => {
       request({
         url: "http://inspirobot.me/api?generate=true"
       }, function(error, response, body) {
         if(error) {
-          callback(`An error occurred, sir.\n\n + ${error}`);
+          respond(`An error occurred, sir.\n\n + ${error}`);
         } else {
-          callback(body);
+          respond(body);
         }
       });
     }

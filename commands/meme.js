@@ -2,7 +2,6 @@ const auth = require('../auth.js');
 const _ = require('lodash');
 const request = require('request');
 
-const memeGenApiKey = auth.memeGen.getApiKey();
 const memes = [{
 		regex: /(Y U NO) (.+)/i,
 		generatorID: 2,
@@ -110,9 +109,10 @@ const memes = [{
   }
 ];
 
-module.exports = (logger, repo, botManager) => {
+module.exports = async (logger, repo, botManager) => {
+  const memeGenApiKey = await auth.memeGen.getApiKey();
   let module = {
-    meme: (params, bot, userID, channelID, serverID, callback) => {
+    meme: (params, bot, userID, channelID, serverID, respond) => {
       let memeText = params.join(" ");
       let validMeme = _.first(_.filter(memes, (m) => {return memeText.match(m.regex)}));
       if(typeof validMeme === "undefined") {
@@ -137,7 +137,7 @@ module.exports = (logger, repo, botManager) => {
         ].join("")
       }, (error, response, body) => {
         if(error) {
-					callback(`An error occurred, sir.\n\n' ${error}`);
+					respond(`An error occurred, sir.\n\n' ${error}`);
         } else {
           let instance = JSON.parse(body).result;
           let instanceUrl = instance.instanceUrl;
@@ -147,7 +147,7 @@ module.exports = (logger, repo, botManager) => {
             url: instanceUrl
           }, ((instanceId, instanceImageUrl, error, response, body) => {
             setTimeout(() => {
-							callback(instanceImageUrl);
+							respond(instanceImageUrl);
             }, 5000);
           }).bind(null, instanceId, instanceImageUrl));
         }

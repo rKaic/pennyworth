@@ -20,10 +20,10 @@ const pugs = [
 
 module.exports = (logger, repo, botManager) => {
   let module = {
-    pugbomb: (params, bot, userID, channelID, serverID, callback) => {
+    pugbomb: (params, bot, userID, channelID, serverID, respond) => {
       for(let i = 0; i <= maxPugsToBomb; i++) {
         let randomPug = core.random(pugs);
-        callback(randomPug);
+        respond(randomPug);
       }
     }
   };

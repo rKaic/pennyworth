@@ -13,25 +13,25 @@ const archivesIncomplete = "https://i.imgur.com/cpjE4PL.jpg";
 module.exports = (logger, repo, botManager) => {
   let module = {};
 
-  module.video = (params, bot, userID, channelID, serverID, callback) => {
+  module.video = (params, bot, userID, channelID, serverID, respond) => {
     if(params.length > 0) {
       if(videos.hasOwnProperty(params[0])) {
         var video = videos[params[0]];
         if(Array.isArray(video)) {
-          callback(core.random(video));
+          respond(core.random(video));
         } else {
-          callback(video);
+          respond(video);
         }
       } else {
-        callback(`I couldn't find that video... ${archivesIncomplete}`);
+        respond(`I couldn't find that video... ${archivesIncomplete}`);
       }
     } else {
-      callback(`Usage: \`\`\`!video <videoName>\`\`\``);
+      respond(`Usage: \`\`\`!video <videoName>\`\`\``);
     }
   }
 
-  module.videos = (params, bot, userID, channelID, serverID, callback) => {
-    callback(Object.keys(videos).join("\n"));
+  module.videos = (params, bot, userID, channelID, serverID, respond) => {
+    respond(Object.keys(videos).join("\n"));
   }
 
   return module;

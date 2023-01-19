@@ -5,10 +5,10 @@ const emojis = [":thumbsup:", ":star:", ":fire:"];
 // TODO - Figure out how to finish this
 module.exports = (logger, repo, botManager) => {
   let module = {
-    vote: (params, bot, userID, channelID, serverID, callback) => {
+    vote: (params, bot, userID, channelID, serverID, respond) => {
       let options = params.join(" ").split(",");
       if(options.length < 2) {
-        callback("Usage: \`\`\`!vote <option>, <option>[, <option>]\`\`\`");
+        respond("Usage: \`\`\`!vote <option>, <option>[, <option>]\`\`\`");
         return;
       }
 
@@ -17,12 +17,12 @@ module.exports = (logger, repo, botManager) => {
         message.push(`To vote for ${options[i].trim()}, react using ${emojis[i]}.`);
       }
 
-      callback(message.join(" "));
+      respond(message.join(" "));
 
       setTimeout(() => {
-        callback("Running out of time to vote!");
+        respond("Running out of time to vote!");
         setTimeout(() => {
-          callback("Vote's done! I wonder who won...");
+          respond("Vote's done! I wonder who won...");
         }, 10000);
       }, 10000);
     }

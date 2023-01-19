@@ -85,8 +85,8 @@ Example command module:
 ```
 module.exports = (logger, repo, botManager) => {
   let module = {
-    helloworld: (params, bot, userID, channelID, serverID, callback) => {
-      callback("Hello, World");
+    helloworld: (params, bot, userID, channelID, serverID, respond) => {
+      respond("Hello, World");
     }
   };
 
@@ -120,7 +120,7 @@ The `channelID` parameter is the service-specific ID of the channel in which the
 
 The `serverID` parameter is the service-specific ID of the server/organization in which the command was received.
 
-The `callback` parameter is a function that writes its argument to the channel in which the command was received.
+The `respond` parameter is a function that writes its argument to the channel in which the command was received.
 
 ## Adding Polls
 

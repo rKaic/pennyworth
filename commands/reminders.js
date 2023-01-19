@@ -148,9 +148,9 @@ module.exports = (logger, repo, botManager) => {
   }
 
   let module = {
-    remindme: (params, bot, userID, channelID, serverID, callback) => {
+    remindme: (params, bot, userID, channelID, serverID, respond) => {
       if(params.length < 1) {
-        callback("Usage: \`\`\`!remindme <time> <message>\`\`\`");
+        respond("Usage: \`\`\`!remindme <time> <message>\`\`\`");
         return;
       }
 
@@ -160,46 +160,46 @@ module.exports = (logger, repo, botManager) => {
       reminder.botType = bot.getBotType();
       repo.add(reminder, (err, r) => {
         if(err) {
-          callback("I'm sorry, but there was an error when setting that reminder. Please check my error logs.");
+          respond("I'm sorry, but there was an error when setting that reminder. Please check my error logs.");
           return;
         }
-        callback(`I will remind you on ${reminder.timeText} to ${reminder.text}. \nYou can remove this reminder with \`!remembered ${r._id}\``);
+        respond(`I will remind you on ${reminder.timeText} to ${reminder.text}. \nYou can remove this reminder with \`!remembered ${r._id}\``);
 
         if(!poll) {
           poll = setInterval(pollReminders, 60000);
         }
       });
     },
-    remembered: (params, bot, userID, channelID, serverID, callback) => {
+    remembered: (params, bot, userID, channelID, serverID, respond) => {
       if(params.length === 0) {
-        callback("Usage: \`\`\`!remembered <id>\`\`\`");
+        respond("Usage: \`\`\`!remembered <id>\`\`\`");
         return;
       }
 
       let reminderId = params[0];
       repo.removeById(reminderId, (err, numRemoved) => {
         if(err) {
-          callback("I'm sorry, but there was an error when removing that reminder. Please check my error logs.");
+          respond("I'm sorry, but there was an error when removing that reminder. Please check my error logs.");
           return;
         }
         
-        callback(`Cleared reminder \`${reminderId}\``);
+        respond(`Cleared reminder \`${reminderId}\``);
       });
     },
-    clearreminders: (params, bot, userID, channelID, serverID, callback) => {
+    clearreminders: (params, bot, userID, channelID, serverID, respond) => {
       repo.removeByUserID(userID, async (err, numRemoved) => {
         if(err) {
-          callback("I'm sorry, but there was an error when removing your reminders. Please check my error logs.");
+          respond("I'm sorry, but there was an error when removing your reminders. Please check my error logs.");
           return;
         }
 
         await bot.sendMessageToUser(userID, `I've cleared your ${numRemoved} reminders`);
       });
     },
-    reminders: (params, bot, userID, channelID, serverID, callback) => {
+    reminders: (params, bot, userID, channelID, serverID, respond) => {
       repo.find({ type: reminderType, userID: userID }, async (err, docs) => {
         if(err) {
-          callback("I'm sorry, but there was an error when retrieving your reminders. Please check my error logs.");
+          respond("I'm sorry, but there was an error when retrieving your reminders. Please check my error logs.");
           return;
         }
 
@@ -212,7 +212,7 @@ module.exports = (logger, repo, botManager) => {
         });
         let remindersMessage = usersReminders.length > 0 ? `\`\`\`${JSON.stringify(usersReminders, null, 2)}\`\`\`` : "You have no reminders at this time.";
         await bot.sendMessageToUser(userID, remindersMessage);
-        callback(`I've messaged you with your current reminders.`);
+        respond(`I've messaged you with your current reminders.`);
       });
     }
   };

@@ -9,9 +9,9 @@ const thunks = [
 
 module.exports = (logger, repo, botManager) => {
   let module = {
-    thinking: (params, bot, userID, channelID, serverID, callback) => {
+    thinking: (params, bot, userID, channelID, serverID, respond) => {
       let randomImage = core.random(thunks);
-      callback(randomImage);
+      respond(randomImage);
     }
   };
 

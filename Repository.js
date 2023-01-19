@@ -12,40 +12,40 @@ class Repository {
     return (typeof obj["_id"] !== "undefined" && typeof obj.type !== "undefined");
   }
 
-  findById(id, callback) {
+  findById(id, respond) {
     let error = null;
     this.db.findOne({ _id: id }, (err, doc) => {
       if(err) {
         this.logger.error(err);
         error = err;
       }
-      typeof callback === "function" && callback(error, doc);
+      typeof respond === "function" && respond(error, doc);
     });
   }
 
-  findAllByType(objType, callback) {
+  findAllByType(objType, respond) {
     let error = null;
     this.db.find({ type: objType }, (err, docs) => {
       if(err) {
         this.logger.error(err);
         error = err;
       }
-      typeof callback === "function" && callback(error, docs);
+      typeof respond === "function" && respond(error, docs);
     });
   }
 
-  find(query, callback) {
+  find(query, respond) {
     let error = null;
     this.db.find(query, (err, docs) => {
       if(err) {
         this.logger.error(err);
         error = err;
       }
-      typeof callback === "function" && callback(error, docs);
+      typeof respond === "function" && respond(error, docs);
     });
   }
 
-  add(obj, callback) {
+  add(obj, respond) {
     let error = null;
 
     if(!obj.hasOwnProperty("timestamp")) {
@@ -67,51 +67,51 @@ class Repository {
         this.logger.error(err);
         error = err;
       }
-      typeof callback === "function" && callback(error, newDocs);
+      typeof respond === "function" && respond(error, newDocs);
     });
   }
 
-  removeById(id, callback) {
+  removeById(id, respond) {
     let error = null;
     this.db.remove( { _id: id }, {}, (err, numRemoved) => {
       if(err) {
         this.logger.error(err);
         error = err;
       }
-      typeof callback === "function" && callback(error, numRemoved);
+      typeof respond === "function" && respond(error, numRemoved);
     });
   }
 
-  removeByUserID(userID, callback) {
+  removeByUserID(userID, respond) {
     let error = null;
     this.db.remove( { userID: userID }, { multi: true }, (err, numRemoved) => {
       if(err) {
         this.logger.error(err);
         error = err;
       }
-      typeof callback === "function" && callback(error, numRemoved);
+      typeof respond === "function" && respond(error, numRemoved);
     });
   }
 
-  removeByQuery(query, callback) {
+  removeByQuery(query, respond) {
     let error = null;
     this.db.remove( query, { multi: true }, (err, numRemoved) => {
       if(err) {
         this.logger.error(err);
         error = err;
       }
-      typeof callback === "function" && callback(error, numRemoved);
+      typeof respond === "function" && respond(error, numRemoved);
     });
   }
 
-  update(query, updatedDocument, callback) {
+  update(query, updatedDocument, respond) {
     let error = null;
     this.db.update(query, updatedDocument, {}, (err, numAffected, affectedDocuments, upsert) => {
       if(err) {
         this.logger.error(err);
         error = err;
       }
-      typeof callback === "function" && callback(error, numAffected, affectedDocuments, upsert);
+      typeof respond === "function" && respond(error, numAffected, affectedDocuments, upsert);
     });
   }
 }

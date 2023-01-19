@@ -12,32 +12,32 @@ module.exports = (logger, repo, botManager) => {
 // module.exports = (logger, repo, botManager) => {
 //   let module = {};
 
-//   module.image = (params, bot, userID, channelID, serverID, callback) => {
+//   module.image = (params, bot, userID, channelID, serverID, respond) => {
 //     if(params.length === 0) {
-//       callback(`Usage: \`\`\`!image <search term>\`\`\``);
+//       respond(`Usage: \`\`\`!image <search term>\`\`\``);
 //       return;
 //     }
 
 //     imageClient.search(params.join(" "), { safe: "high" }).then(images => {
 //       if(images.length > 0) {
 //         let randomImage = core.random(images);
-//         callback(randomImage.url);
+//         respond(randomImage.url);
 //       } else {
-//         callback(`I'm sorry, Sir, but nothing appears in the archives for that search term. https://i.imgur.com/cpjE4PL.jpg`)
+//         respond(`I'm sorry, Sir, but nothing appears in the archives for that search term. https://i.imgur.com/cpjE4PL.jpg`)
 //       }
 //     });
 //   };
 
-//   module.riskyimage = (params, bot, userID, channelID, serverID, callback) => {
+//   module.riskyimage = (params, bot, userID, channelID, serverID, respond) => {
 //     if(params.length === 0) {
-//       callback(`Usage: \`\`\`!riskyimage <search term>\`\`\``);
+//       respond(`Usage: \`\`\`!riskyimage <search term>\`\`\``);
 //       return;
 //     }
 
 //     imageClient.search(params.join(" "), { safe: "off" }).then(images => {
 //       if(images.length > 0) {
 //         let randomImage = core.random(images);
-//         callback(randomImage.url);
+//         respond(randomImage.url);
 //       }
 //     });
 //   };

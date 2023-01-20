@@ -24,7 +24,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "nedb": "^1.8.0",
-    "node-fetch": "2.6.6",
+    "node-fetch": "2.6.7",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
     "requirejs": "^2.3.6",

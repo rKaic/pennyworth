@@ -61,4 +61,8 @@ typings/
 .next
 datastore.db
 
+dist/
+# TS -incremental file
+tsconfig.tsbuildinfo
+
 node_modules

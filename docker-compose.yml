@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  pennyworth:
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+    build: .
+    ports:
+      - "3000"
+      - "9001"
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - pennyworth
+    ports:
+      - "3000:3000"
+      - "9001:9001"

@@ -30,7 +30,7 @@ export const slack = {
             appToken: await getParameterFromAws("slack", "appToken"),
             signingSecret: await getParameterFromAws("slack", "signingSecret")
         };
-        return [config];
+        return [config].filter(c => c.botToken != null);
     },
     getAdminChannel: async () => ({
         serverID: await getParameterFromAws("slack", "serverID"),
@@ -48,13 +48,4 @@ export const repository = {
 
 export const cocktailDb = {
     getApiKey: async () => await getParameterFromAws("cocktaildb", "apiKey")
-};
-
-export const googleImages = {
-    getApiKey: async () => await getParameterFromAws("google", "apiKey"),
-    getEngineId: async () => await getParameterFromAws("google", "engineId")
-};
-
-export const memeGen = {
-    getApiKey: async () => await getParameterFromAws("memegen", "apiKey")
 };

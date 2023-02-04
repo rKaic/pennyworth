@@ -1,4 +1,5 @@
 import * as crypto from 'crypto';
+import fetch from 'node-fetch';
 import { FormattedMessage, MessageFormat } from './Types';
 
 
@@ -26,3 +27,10 @@ export const formatMessage = (format: MessageFormat, text?: string, data?: any):
 export const isNullOrEmpty = (str: string): boolean => typeof str === 'undefined' || !str || typeof str !== "string" || str.length === 0;
 
 export const getVersion = (): string => process.env.RELEASE_TAG || "0.0.0-local";
+
+export const getJson = async <T>(uri: string, options?): Promise<T> => (await(await fetch(uri, options ?? {
+  method: 'GET',
+  headers: {
+      "Accept": "application/json"
+  }
+})).json()) as T;

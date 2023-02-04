@@ -1,25 +1,16 @@
-import { randomElement } from '../core';
 import { Command, CommandModule, ServiceCollection } from '../Types';
-
-const thunks = [
-  "https://i.imgur.com/uq7lIwd.gif",
-  "https://i.imgur.com/eCJVS64.gif",
-  "https://i.imgur.com/fkN1EWj.gifv",
-  "https://i.imgur.com/91VpvOy.gif"
-];
 
 // services is an object containing `logger`, `repo`, and `botManager` fields
 export default (services: ServiceCollection): CommandModule[] => {
   const modules: CommandModule[] = [
     {
-      key: "thinking",
-      aliases: [],
+      key: "spooky",
+      aliases: ["3spooky5me"],
       execute: async (command: Command) => {
-        let randomImage = randomElement(thunks);
-        await command.respond(randomImage);
+        await command.respond("https://i.imgur.com/lAmIlNP.gif");
       },
       help: {
-        description: "Displays a random image of pondering.",
+        description: "Expresses how spooky something was.",
         displayAsCommand: true,
         usage: ""
       }

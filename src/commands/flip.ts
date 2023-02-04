@@ -1,3 +1,5 @@
+import { Command, CommandModule, ServiceCollection } from "../Types";
+
 const flippedChars = {
   // uppercase (incomplete)
   'A':'∀',
@@ -75,18 +77,25 @@ const flippedChars = {
   '}':'{'
 };
 
-module.exports = (logger, repo, botManager) => {
-  let module = {};
-
-  module.flip = (params, bot, userID, channelID, serverID, respond) => {
-    var text = params.join(" ");
-    let flippedText = [];
-    for(let i = 0; i < text.length; i++) {
-      let flippedChar = flippedChars.hasOwnProperty(text[i]) ? flippedChars[text[i]] : text[i];
-      flippedText.unshift(flippedChar);
+export default (services: ServiceCollection): CommandModule[] => {
+  const modules: CommandModule[] = [{
+    key: "flip",
+    aliases: [],
+    execute: async (command: Command) => {
+      var text = command.params.join(" ");
+      let flippedText: string[] = [];
+      for(let i = 0; i < text.length; i++) {
+        let flippedChar = flippedChars.hasOwnProperty(text[i]) ? flippedChars[text[i]] : text[i];
+        flippedText.unshift(flippedChar);
+      }
+      await command.respond(`(╯°□°）╯︵ ${flippedText.join("")}`);
+    },
+    help: {
+      description: "Flips the inputted text upside-down",
+      displayAsCommand: true,
+      usage: "<phrase>"
     }
-    respond(`(╯°□°）╯︵ ${flippedText.join("")}`);
-  };
+  }];
 
-  return module;
+  return modules;
 }

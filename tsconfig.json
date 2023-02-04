@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+      "target": "es2016",
+      "module": "commonjs",
+      "outDir": "dist",
+      "rootDir": "src",
+      "strict": true,
+      "noImplicitAny": false,
+      "strictNullChecks": true,
+      "checkJs": true,
+      "allowJs": true,
+      "moduleResolution": "node",
+      "types": [
+        "node"
+      ],
+      "lib": [
+        "es6"
+      ],
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "allowUnreachableCode": true,
+      "useUnknownInCatchVariables": false,
+      "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "dist",
+    "test",
+    "node_modules",
+    "<node_internals>/**",
+  ]
+}

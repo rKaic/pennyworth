@@ -33,7 +33,7 @@
     "request-promise-native": "^1.0.5",
     "requirejs": "^2.3.6",
     "tsc": "^2.0.4",
-    "typesync": "^0.9.2",
+    "typesync": "^0.10.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {

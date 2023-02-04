@@ -13,6 +13,8 @@ import { formatMessage, getVersion, uuid } from './core';
 import os from 'os';
 import moment from 'moment';
 
+const REPORT_URL = "https://github.com/rKaic/pennyworth/issues/new";
+
 (async () => {
   // Configure logger settings
   const logMetadata = ({
@@ -72,7 +74,7 @@ import moment from 'moment';
                 ]),
               ])),
               formatMessage(MessageFormat.Divider),
-              formatMessage(MessageFormat.Markdown, `Having problems? <https://github.com/eftours/air-slackbot/issues/new|Report an issue on GitHub>`)
+              formatMessage(MessageFormat.Markdown, `Having problems? <${REPORT_URL}|Report an issue on GitHub>`)
             ]);
           } else {
             // Display only those selected commands in great detail
@@ -87,7 +89,7 @@ import moment from 'moment';
                 ]),
                 formatMessage(MessageFormat.Divider)
               ])),
-              formatMessage(MessageFormat.Markdown, `Having problems? <https://github.com/eftours/air-slackbot/issues/new|Report an issue on GitHub>`)
+              formatMessage(MessageFormat.Markdown, `Having problems? <${REPORT_URL}|Report an issue on GitHub>`)
             ]);
           }
         } catch(err) {

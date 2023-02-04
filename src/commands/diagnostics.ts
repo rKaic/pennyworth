@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { formatMessage, getVersion } from '../core';
 import { Command, CommandModule, MessageFormat, ServiceCollection } from '../Types';
 
-const GIT_REPO_URI = "https://github.com/eftours/air-slackbot";
+const GIT_REPO_URI = "https://github.com/rKaic/pennyworth";
 
 export default (services: ServiceCollection): CommandModule[] => {
   const modules: CommandModule[] = [
@@ -50,9 +50,9 @@ export default (services: ServiceCollection): CommandModule[] => {
         await command.respond([
           formatMessage(MessageFormat.Header, "About Myself"), 
           formatMessage(MessageFormat.Markdown, `Greetings! My name is ${command.bot.getName()}.`),
-          formatMessage(MessageFormat.Markdown, `I am a Slack Bot run by the Air Team here at EF.`),
+          formatMessage(MessageFormat.Markdown, `I am an open source Bot meant to make your life easier and more fun.`),
           formatMessage(MessageFormat.Markdown, `You can find my source code on <${GIT_REPO_URI}|GitHub>.`),
-          formatMessage(MessageFormat.Markdown, `I will respond to a user typing \`!help\` with a list of my available commands.`)
+          formatMessage(MessageFormat.Markdown, `I will respond to a user typing \`${command.bot.commandParam}help\` with a list of my available commands.`)
         ]);
       },
       help: {
@@ -67,11 +67,9 @@ export default (services: ServiceCollection): CommandModule[] => {
       execute: async (command: Command) => {
         await command.respond([
           formatMessage(MessageFormat.Header, "Frequently Asked Questions"),
-          formatMessage(MessageFormat.Markdown, `*What can you do?*\nI can help with creating release docs, promoting deployments of Air services, and provide helpful links.\n\nType \`${command.bot.commandParam}help\` to get a full list of my commands, or view my Slack profile for slash (\`/\`) commands.`),
+          formatMessage(MessageFormat.Markdown, `*What can you do?*\nType \`${command.bot.commandParam}help\` to get a full list of my commands, or view my Slack profile for slash (\`/\`) commands.`),
           formatMessage(MessageFormat.Divider),
           formatMessage(MessageFormat.Markdown, `*I want to change or add functionality to Pennyworth. Can I?*\nSure can! Pennyworth is written in TypeScript; open a PR <${GIT_REPO_URI}|on GitHub!>`),
-          formatMessage(MessageFormat.Divider),
-          formatMessage(MessageFormat.Markdown, `*Are you a clown?*\nNo. I am a butler, not a clown. You must be confusing me with Pennywise.`),
           formatMessage(MessageFormat.Divider)
         ]);
       },

@@ -21,7 +21,7 @@
     "@slack/bolt": "^3.12.2",
     "discord.io": "github:woor/discord.io#gateway_v6",
     "events": "^3.3.0",
-    "glob": "^7.1.2",
+    "glob": "^10.0.0",
     "google-images": "^2.1.0",
     "jsdom": "^21.0.0",
     "lodash": "^4.17.21",

@@ -5,7 +5,8 @@ import Repository from "./Repository";
 
 export enum BotType {
     Discord,
-    Slack
+    Slack,
+    Voice
 };
 
 export enum ChannelType {

@@ -12,6 +12,7 @@ import { Command, CommandContext, CommandEntry, CommandModule, FormattedMessage,
 import { formatMessage, getVersion, uuid } from './core';
 import os from 'os';
 import moment from 'moment';
+import VoiceBot from './bots/VoiceBot';
 
 const REPORT_URL = "https://github.com/rKaic/pennyworth/issues/new";
 
@@ -41,11 +42,13 @@ const REPORT_URL = "https://github.com/rKaic/pennyworth/issues/new";
   }
   const repo = new Repository(logger, connectionString);
   const botManager = new BotManager(logger);
+  // Discord
   const discordTokens = await discord.getTokens();
   for(let discordToken of discordTokens) {
     logger.info("Initializing Discord Bot");
     botManager.addBot(new DiscordBot(logger, repo, discordToken));
   }
+  // Slack
   const slackTokens = await slack.getConfigs();
   for(let slackConfig of slackTokens) {
     logger.info("Initializing Slack Bot");
@@ -54,6 +57,8 @@ const REPORT_URL = "https://github.com/rKaic/pennyworth/issues/new";
     }
     botManager.addBot(new SlackBot(logger, repo, slackConfig.botToken as string, slackConfig.appToken as string, slackConfig.signingSecret as string));
   }
+  // Voice
+  botManager.addBot(new VoiceBot(logger, repo));
   const bots = botManager.getAllBots();
 
   const commands: {[key: string]: CommandModule} = {

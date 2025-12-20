@@ -23,3 +23,5 @@ services:
     ports:
       - "3000:3000"
       - "9001:9001"
+volumes:
+  mongo_data:

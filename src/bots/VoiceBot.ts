@@ -7,6 +7,7 @@ import VoiceClient from '../lib/voice';
 class VoiceBot extends Bot {
   constructor(logger: Logger, repo: Repository) {
     let bot = new VoiceClient(logger);
+    bot.start();
     super(bot, BotType.Voice, logger, repo);
   }
 

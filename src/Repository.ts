@@ -12,7 +12,7 @@ type DatabaseObject = {
 
 class Repository {
   logger: Logger;
-  client: MongoClient;
+  client: MongoClient | null;
   database: Db;
 
   constructor(logger: Logger, connectionString: string) {

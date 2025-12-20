@@ -20,6 +20,7 @@
     "@aws-sdk/client-ssm": "^3.252.0",
     "@slack/bolt": "^3.12.2",
     "discord.io": "github:woor/discord.io#gateway_v6",
+    "dotenv": "^17.2.3",
     "events": "^3.3.0",
     "glob": "^7.1.2",
     "google-images": "^2.1.0",

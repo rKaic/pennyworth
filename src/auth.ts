@@ -1,51 +1,59 @@
-import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm";
+import path from "path";
+import { config } from "dotenv";
 
-const client: SSMClient = new SSMClient({ region: "us-east-1" });
+const envPath = process.env.DOTENV_PATH ?? path.resolve(process.cwd(), ".env");
+config({ path: envPath });
 
-const getParameterFromAws = async (namespace: string, param: string) => {
+const toUpperSnake = (s: string) =>
+    s.replace(/([a-z0-9])([A-Z])/g, "$1_$2")
+        .replace(/[^A-Za-z0-9_]/g, "_")
+        .toUpperCase();
+
+const getParameter = async (namespace: string, param: string): Promise<any> => {
+    const envKey = `PENNYWORTH_${namespace.toUpperCase()}_${toUpperSnake(param)}`;
+    const raw = process.env[envKey];
+
+    if (raw == null) return undefined;
+
     try {
-        const parameter = await client.send(
-            new GetParameterCommand({
-                Name: `/applications/pennyworth/${namespace}/${param}`, 
-                WithDecryption: true
-            }));
-        return parameter?.Parameter?.Value;
+        return raw.startsWith("{") || raw.startsWith("[") ? JSON.parse(raw) : raw;
     } catch {
-        return undefined;
+        return raw;
     }
 };
 
 export const users = {
-    getAdministrators: async () => await getParameterFromAws("users", "admins") || []
+    getAdministrators: async () => await getParameter("users", "admins") || []
 };
 
 export const discord = {
-    getTokens: async () => await getParameterFromAws("discord", "token") || []
+    getTokens: async () => await getParameter("discord", "token") || []
 };
 
 export const slack = {
     getConfigs: async () => {
         const config = {
-            botToken: await getParameterFromAws("slack", "botToken"),
-            appToken: await getParameterFromAws("slack", "appToken"),
-            signingSecret: await getParameterFromAws("slack", "signingSecret")
+            botToken: await getParameter("slack", "botToken"),
+            appToken: await getParameter("slack", "appToken"),
+            signingSecret: await getParameter("slack", "signingSecret")
         };
         return [config].filter(c => c.botToken != null);
     },
     getAdminChannel: async () => ({
-        serverID: await getParameterFromAws("slack", "serverID"),
-        channelID: await getParameterFromAws("slack", "adminChannelID")
+        serverID: await getParameter("slack", "serverID"),
+        channelID: await getParameter("slack", "adminChannelID")
     }) ,
     getDeveloperChannel: async () => ({
-        serverID: await getParameterFromAws("slack", "serverID"),
-        channelID: await getParameterFromAws("slack", "developerChannelID")
+        serverID: await getParameter("slack", "serverID"),
+        channelID: await getParameter("slack", "developerChannelID")
     })    
 };
 
 export const repository = {
-    getConnectionString: async () => await getParameterFromAws("repository", "connectionString")
+    getConnectionString: async () => await getParameter("repo", "connectionString")
 };
 
 export const cocktailDb = {
-    getApiKey: async () => await getParameterFromAws("cocktaildb", "apiKey")
+    getApiKey: async () => await getParameter("cocktaildb", "apiKey")
 };
+

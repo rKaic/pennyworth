@@ -4,6 +4,8 @@ ENV NODE_ENV development
 
 COPY . .
 
+RUN apk add --no-cache build-essential
+
 RUN yarn install --frozen-lockfile
 
 FROM node:lts-alpine as app

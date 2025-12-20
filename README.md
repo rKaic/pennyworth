@@ -8,7 +8,7 @@ Pennyworth uses [yarn](https://yarnpkg.com/) as a package manager and app runner
 yarn install
 ```
 
-Pennyworth's secrets are stored in [AWS Parameter Store](https://us-east-1.console.aws.amazon.com/systems-manager/parameters/?region=us-east-1&tab=Table#list_parameter_filters=Name:Contains:%2Fapplications%2Fpennyworth) under the namespace `/applications/pennyworth/`. Pennyworth can use your [AWS tokens from environment variables](https://docs.aws.amazon.com/singlesignon/latest/userguide/howtogetcredentials.html) to access Parameter Store.
+Pennyworth's secrets are stored in environment variables under the `PENNYWORTH_` namespace, which can also be saved in a gitignored .env file.
 
 To run Pennyworth with file-watching enabled:
 ```shell

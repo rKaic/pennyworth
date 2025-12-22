@@ -31,6 +31,11 @@ class Bot extends EventEmitter {
     return message.startsWith(this.commandParam);
   }
 
+  isVoiceCommand(message: string): boolean {
+    // TODO - This should fuzzily searcch against voice commands or use an LLM to collapse against a list of options
+    return true;
+  }
+
   getBotType(): BotType {
     return this.botType;
   }
@@ -117,6 +122,9 @@ class Bot extends EventEmitter {
       params,
       bot: this
     } as CommandContext);
+  }
+
+  shutdown(): void {
   }
 };
 

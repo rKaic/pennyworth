@@ -14,23 +14,22 @@ class VoiceBot extends Bot {
   initialize() {
     super.initialize();
 
-    this.bot.on('voiceCommand', (results: any) => {
-        // if (this.isCommand(results)) {
-          this.logger.info(`From Voice: ${results?.text}`);
+    this.bot.on('voiceCommand', async (results: any) => {
+        this.logger.info(`From Voice: ${results}`);
+        // TODO - Remove or change this
+        await this.bot.sendMessage(null, "Understood, sir.");
+        // if (this.isVoiceCommand(results)) {
         //   super.receivedMessage({userID, channelID: data.channelID, threadID: message.ts, serverID: data.serverID, message});
         // }
     });
   }
 
   async sendMessage(channelID: string, message: string | FormattedMessage[], threadID?: string): Promise<MessageConfirmation> {
-    return await this.bot.sendMessage({
-      to: channelID,
-      message: message
-    }, (error, response) => {
-      if(error) {
-        this.logger.error(error);
-      }
-    });
+    return await this.bot.sendMessage(channelID, message);
+  }
+
+  shutdown() {
+    this.bot.stop();
   }
 };
 

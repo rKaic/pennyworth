@@ -200,4 +200,38 @@ const REPORT_URL = "https://github.com/rKaic/pennyworth/issues/new";
 
   // Start the health check server
   await health.startServer(logger, bots);
+
+  let shuttingDown = false;
+  async function shutdownAll(exitCode = 0) {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    logger.info('Shutting down bots...');
+    for (const bot of bots) {
+      try {
+        if (typeof bot.shutdown === 'function') {
+          bot.shutdown();
+          try {
+            const name = typeof bot.getBotType === 'function' ? bot.getBotType() : 'bot';
+            logger.info(`Shutdown ${name}`);
+          } catch(_) {}
+        }
+      } catch (err) {
+        logger.error('Error shutting down bot', err);
+      }
+    }
+    logger.info('All bots shut down');
+    process.exit(exitCode);
+  }
+
+  process.once('SIGINT', () => shutdownAll(0));
+  process.once('SIGTERM', () => shutdownAll(0));
+  process.once('beforeExit', () => shutdownAll(0));
+  process.on('uncaughtException', (err) => {
+    logger.error('Uncaught exception, initiating shutdown', err);
+    shutdownAll(1);
+  });
+  process.on('unhandledRejection', (reason) => {
+    logger.error('Unhandled rejection, initiating shutdown', reason);
+    shutdownAll(1);
+  });
 })();
